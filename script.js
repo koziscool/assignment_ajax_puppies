@@ -22,7 +22,12 @@ var handlePuppy = function( puppyObj, $puppyList ) {
   var name = puppyObj.name;
   var breed = puppyObj.breed.name;
   var createdAt = puppyObj.created_at;
-  var $listElt = $('<li>' + name + ' (' + breed + ') ' + createdAt + '</li>');
+
+  var puppyString = '<li><b>' + name + '</b> (' + breed + ') ' + createdAt + '</li>'
+  var adoptLink = $('<a href="#">adopt</a>'); 
+  adoptLink.attr("data", puppyObj.id);
+  var $listElt = $(puppyString);
+  $listElt.append(adoptLink);
   $puppyList.append( $listElt);
 };
 
