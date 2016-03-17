@@ -8,7 +8,8 @@ var breedlist = (function($){
 
       breeds.forEach(function(breed){
         var $breed = $('<option>' + breed.name + '</option>');
-        $breed.attr("value", breed.name);
+        // $breed.attr("value", breed.name);
+        $breed.attr("value", breed.id);
         $breed.attr('data-id', breed.id);
         $dropdown.append($breed);
 
@@ -62,9 +63,30 @@ var updatePuppyRequest = function(e) {
 var createPuppy = function(e) {
   e.preventDefault();
 
-  var $formString = $('#puppy-form').serialize();
-  console.log($formString);
-}
+  var formString = $('#puppy-form').serialize();
+  var strArray = formString.split('&');
+  var name = strArray[0].split('=')[1];
+  var breed = strArray[1].split('=')[1];
+
+  var createPuppyObj = {
+    puppy: {    
+      name: name,
+      breed_id: +breed
+    }
+  }
+
+  var createPuppyString = JSON.stringify(createPuppyObj);
+  console.log(createPuppyString);
+
+  var url = "https://ajax-puppies.herokuapp.com/puppies.json";
+
+  var options = {
+    url: url,
+    method: "POST",
+    data: createPuppyObj,
+  }
+  $.ajax( options )
+};
 
 $(document).ready( function(){
   $("#refresh-puppies").on('click', updatePuppyRequest);
